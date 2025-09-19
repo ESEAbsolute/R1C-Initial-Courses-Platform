@@ -511,7 +511,7 @@ function CourseDetailModal({ courseId, isOpen, onClose, currentUser, onEnroll })
                 .then(data => setCourse(data.course))
                 .catch(err => console.error('获取课程详情失败:', err))
                 .finally(() => setLoading(false));
-            
+
             // 检查用户是否已选择该课程
             if (currentUser) {
                 setCheckingEnrollment(true);
@@ -570,7 +570,7 @@ function CourseDetailModal({ courseId, isOpen, onClose, currentUser, onEnroll })
                 ...styles.buttonDisabled
             };
         }
-        
+
         if (isEnrolled) {
             return {
                 ...styles.buttonPrimary,
@@ -579,14 +579,14 @@ function CourseDetailModal({ courseId, isOpen, onClose, currentUser, onEnroll })
                 opacity: 0.8
             };
         }
-        
+
         if (enrolling || checkingEnrollment) {
             return {
                 ...styles.buttonPrimary,
                 ...styles.buttonDisabled
             };
         }
-        
+
         return styles.buttonPrimary;
     };
 
@@ -648,7 +648,7 @@ function CourseDetailModal({ courseId, isOpen, onClose, currentUser, onEnroll })
                                     </button>
                                 )}
                             </div>
-                            
+
                             {/* 右侧：选课/已选按钮 */}
                             <div>
                                 <button
@@ -1213,27 +1213,44 @@ export default function CourseSelectionPlatform() {
                             <div>没有找到相关课程</div>
                         </div>
                     ) : (
-                        <div style={styles.coursesGrid}>
-                            {filteredCourses.map(course => (
-                                <div
-                                    key={course.id}
-                                    onClick={() => openCourseDetail(course.id)}
-                                    onMouseEnter={() => setHoveredCard(course.id)}
-                                    onMouseLeave={() => setHoveredCard(null)}
-                                    style={{
-                                        ...styles.courseCard,
-                                        ...(hoveredCard === course.id ? styles.courseCardHover : {})
-                                    }}
-                                >
-                                    <div style={styles.courseCode}>
-                                        {course.course_code}
+                        <>
+                            {/* 课程数量显示 */}
+                            <div style={{
+                                marginBottom: '1.5rem',
+                                padding: '1rem',
+                                backgroundColor: 'white',
+                                borderRadius: '0.5rem',
+                                border: '1px solid #e2e8f0',
+                                textAlign: 'center',
+                                fontSize: '1.125rem',
+                                fontWeight: '500',
+                                color: '#2563eb'
+                            }}>
+                                一共有 {filteredCourses.length} 门课程
+                            </div>
+
+                            <div style={styles.coursesGrid}>
+                                {filteredCourses.map(course => (
+                                    <div
+                                        key={course.id}
+                                        onClick={() => openCourseDetail(course.id)}
+                                        onMouseEnter={() => setHoveredCard(course.id)}
+                                        onMouseLeave={() => setHoveredCard(null)}
+                                        style={{
+                                            ...styles.courseCard,
+                                            ...(hoveredCard === course.id ? styles.courseCardHover : {})
+                                        }}
+                                    >
+                                        <div style={styles.courseCode}>
+                                            {course.course_code}
+                                        </div>
+                                        <div style={styles.courseName}>
+                                            {course.course_name}
+                                        </div>
                                     </div>
-                                    <div style={styles.courseName}>
-                                        {course.course_name}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
